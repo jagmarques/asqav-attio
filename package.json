@@ -1,0 +1,51 @@
+{
+  "name": "asqav-attio",
+  "version": "0.1.0",
+  "description": "Attio integration for Asqav - cryptographic, tamper-evident attestation of every CRM record mutation",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "SECURITY.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --clean",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test src/index.test.ts"
+  },
+  "keywords": [
+    "asqav",
+    "attio",
+    "crm",
+    "webhook",
+    "audit-trail",
+    "ai-governance",
+    "compliance"
+  ],
+  "author": "Asqav",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jagmarques/asqav-attio"
+  },
+  "dependencies": {
+    "@asqav/sdk": "^0.5.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsup": "^8.0.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0"
+  }
+}
