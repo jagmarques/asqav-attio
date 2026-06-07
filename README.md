@@ -4,7 +4,7 @@
 
 # asqav-attio
 
-Prove what changed in your Attio CRM, record by record. This integration signs every Attio record mutation with NIST FIPS 204 ML-DSA-65 via the Asqav API, producing a tamper-evident receipt of what was created, updated, or deleted, by whom, and when.
+Prove what changed in your Attio CRM, record by record. This integration signs every Attio record mutation with NIST FIPS 204 ML-DSA-65 through the Asqav API. The result is a tamper-evident receipt that says which record changed, who changed it, and when.
 
 ## What control level this gives you (read this first)
 
