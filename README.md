@@ -6,13 +6,13 @@
 
 Prove what changed in your Attio CRM, record by record. This integration signs every Attio record mutation with NIST FIPS 204 ML-DSA-65 through the Asqav API. The result is a tamper-evident receipt that says which record changed, who changed it, and when.
 
-## What control level this gives you (read this first)
+## What control level this gives you, read this first
 
 This is an attest-after integration, not a pre-execution block. It cannot stop a write before it happens.
 
 The reason is the Attio API itself. Asqav cold-verified Attio's developer surfaces, and Attio exposes no pre-mutation hook:
 
-- Attio webhooks (`record.created`, `record.updated`, `record.deleted`) are post-commit notifications. They fire after the record has already changed, so they can attest but cannot veto. See the [webhooks reference](https://docs.attio.com/rest-api/webhook-reference/record-events/recordupdated).
+- Attio webhooks for `record.created`, `record.updated`, and `record.deleted` are post-commit notifications. They fire after the record has already changed, so they can attest but cannot veto. See the [webhooks reference](https://docs.attio.com/rest-api/webhook-reference/record-events/recordupdated).
 - Attio App SDK record actions are user-triggered buttons. Their handler is `onTrigger({ recordId })`, which runs when a user clicks the action, not before a save, and has no way to intercept or block a mutation. See the [record action entry point](https://docs.attio.com/sdk/entry-points/record-action) and the [App SDK overview](https://docs.attio.com/sdk/deep-dives/overview).
 
 So the strongest honest control Attio's API supports today is an after-the-fact, cryptographically signed audit trail of CRM mutations. That is what `asqav-attio` delivers. If you need a true pre-execution gate that blocks a rogue agent before it acts, put Asqav on a surface you control before the write, for example the [MCP server](https://github.com/jagmarques/asqav-mcp) or the [SDK](https://github.com/jagmarques/asqav-sdk) inside the agent that drives Attio, rather than relying on Attio's post-commit webhooks.
@@ -46,7 +46,7 @@ npm install asqav-attio
 
 ## Quick start
 
-Point an Attio webhook (subscribed to the record events you care about) at an HTTP endpoint, then hand each raw delivery to the receiver. The example below uses Express, but any framework works as long as you can read the raw request body.
+Point an Attio webhook, subscribed to the record events you care about, at an HTTP endpoint, then hand each raw delivery to the receiver. The example below uses Express, but any framework works as long as you can read the raw request body.
 
 ```ts
 import express from "express";
@@ -88,12 +88,12 @@ app.listen(3000);
 
 When Attio commits a record change, it delivers a webhook to your endpoint. For each event in the delivery, `asqav-attio`:
 
-1. Verifies the delivery HMAC against your Attio webhook secret (when one is configured). An unverified delivery throws and nothing is attested.
+1. Verifies the delivery HMAC against your Attio webhook secret whenever one is configured. An unverified delivery throws and nothing is attested.
 2. Calls the Asqav API to sign a receipt with `action_type` of `attio:record.created`, `attio:record.updated`, or `attio:record.deleted`, carrying the workspace, object, record, changed-attribute, and actor identifiers from the event.
 
-Signing happens server-side with ML-DSA-65 (NIST FIPS 204), producing a compliance receipt that the CRM, the agent, or any operator can never forge. The signing key never leaves Asqav.
+Signing happens server-side with NIST FIPS 204 ML-DSA-65, producing a compliance receipt that the CRM, the agent, or any operator can never forge. The signing key never leaves Asqav.
 
-The data that travels depends on the `baseUrl` you point at. Against Asqav cloud (`https://api.asqav.com`) the SDK defaults to hash-only mode, so raw context is hashed client-side before it leaves your infrastructure. Against a self-hosted deployment the full event context lands on the server you control.
+The data that travels depends on the `baseUrl` you point at. Against Asqav cloud at `https://api.asqav.com`, the SDK defaults to hash-only mode, so raw context is hashed client-side before it leaves your infrastructure. Against a self-hosted deployment the full event context lands on the server you control.
 
 ## Verifying a delivery yourself
 
