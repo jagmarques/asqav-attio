@@ -23,4 +23,4 @@ Cryptographic signing runs server-side via the Asqav API. Report signing or key-
 
 ## Scope boundary
 
-This integration is an after-the-fact attestation receiver, not a pre-execution gate. It cannot block an Attio record mutation, because Attio fires its webhooks after the record has already changed. Reports asking it to "block" a mutation are out of scope by design; see the README for the exact control level.
+This integration is an after-the-fact attestation receiver, not a pre-execution gate. It cannot block an Attio record mutation, because Attio fires its webhooks after the record has already changed. Reports asking it to "block" a mutation are out of scope by design. See the README for the exact control level.
