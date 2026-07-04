@@ -15,7 +15,7 @@ The reason is the Attio API itself. Asqav cold-verified Attio's developer surfac
 - Attio webhooks for `record.created`, `record.updated`, and `record.deleted` are post-commit notifications. They fire after the record has already changed, so they can attest but cannot veto. See the [webhooks reference](https://docs.attio.com/rest-api/webhook-reference/record-events/recordupdated).
 - Attio App SDK record actions are user-triggered buttons. Their handler is `onTrigger({ recordId })`, which runs when a user clicks the action, not before a save, and has no way to intercept or block a mutation. See the [record action entry point](https://docs.attio.com/sdk/entry-points/record-action) and the [App SDK overview](https://docs.attio.com/sdk/deep-dives/overview).
 
-So the strongest honest control Attio's API supports today is an after-the-fact, cryptographically signed audit trail of CRM mutations. That is what `asqav-attio` delivers. If you need a true pre-execution gate that blocks a rogue agent before it acts, put Asqav on a surface you control before the write, for example the [MCP server](https://github.com/jagmarques/asqav-mcp) or the [SDK](https://github.com/jagmarques/asqav-sdk) inside the agent that drives Attio, rather than relying on Attio's post-commit webhooks.
+So the strongest honest control Attio's API supports today is an after-the-fact, cryptographically signed audit trail of CRM mutations. That is what `asqav-attio` delivers. If you need a true pre-execution gate that blocks a rogue agent before it acts, put Asqav on a surface you control before the write, for example the [SDK](https://github.com/jagmarques/asqav-sdk) inside the agent that drives Attio, rather than relying on Attio's post-commit webhooks.
 
 ## Install
 
