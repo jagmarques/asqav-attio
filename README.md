@@ -19,16 +19,11 @@ So the strongest honest control Attio's API supports today is an after-the-fact,
 
 ## Install
 
-`asqav-attio` is not yet published to npm. Install from source until a registry release is cut:
+Not yet published to npm. Install from GitHub or a local path:
 
 ```bash
-git clone https://github.com/jagmarques/asqav-attio.git
-cd asqav-attio
-npm install
-npm run build
+npm install github:jagmarques/asqav-attio
 ```
-
-Then add it as a local path dependency in your app's `package.json`:
 
 ```json
 {
